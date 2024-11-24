@@ -1,0 +1,427 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: advanced-chat
+  name: texttospeech
+  use_icon_as_answer_icon: false
+kind: app
+version: 0.1.3
+workflow:
+  conversation_variables: []
+  environment_variables:
+  - description: ''
+    id: f0f79596-02c6-4e08-b69c-4e896652f976
+    name: API_KEY
+    value: your api key
+    value_type: string
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        sourceType: start
+        targetType: llm
+      id: 1730703395688-llm
+      source: '1730703395688'
+      sourceHandle: source
+      target: llm
+      targetHandle: target
+      type: custom
+    - data:
+        isInIteration: false
+        sourceType: llm
+        targetType: http-request
+      id: llm-source-1730703901518-target
+      source: llm
+      sourceHandle: source
+      target: '1730703901518'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: start
+        targetType: llm
+      id: 1730703395688-source-1732361282794-target
+      source: '1730703395688'
+      sourceHandle: source
+      target: '1732361282794'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: llm
+        targetType: tool
+      id: 1732361282794-source-1732361299529-target
+      source: '1732361282794'
+      sourceHandle: source
+      target: '1732361299529'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: tool
+        targetType: answer
+      id: 1732361299529-source-answer-target
+      source: '1732361299529'
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: http-request
+        targetType: answer
+      id: 1730703901518-source-answer-target
+      source: '1730703901518'
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: START
+        type: start
+        variables: []
+      height: 53
+      id: '1730703395688'
+      position:
+        x: 80
+        y: 282
+      positionAbsolute:
+        x: 80
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        memory:
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 10
+        model:
+          completion_params:
+            frequency_penalty: 0.1
+            max_tokens: 16001
+            presence_penalty: 0.1
+            temperature: 0.8
+            top_p: 0.9
+          mode: chat
+          name: gpt-4o-mini-2024-07-18
+          provider: openai
+        prompt_template:
+        - id: b38cc5df-7c20-4db2-8299-3b3bdf49ffc5
+          role: system
+          text: "Create a script for a podcast targeted at young children using Azure's\
+            \ Text-To-Speech (TTS) service. The writing style should be playful, warm,\
+            \ and engaging, similar to a dialogue between friendly characters. Use\
+            \ the specified XML format so that different \"voices\" can be assigned\
+            \ to the two characters in the podcast.\n\n# Instructions\n\n- Maintain\
+            \ a cheerful, conversational tone, avoiding complex words. Assume young\
+            \ children as your target audience.\n- The script should use an alternating\
+            \ voice format between at least two characters. Be sure to guide children\
+            \ into learning while maintaining a playful and curious attitude.\n- Each\
+            \ part of the dialogue must be enclosed in `<voice></voice>` tags, clearly\
+            \ identifying the speaker.\n- Consider using two 'voices' provided by\
+            \ Azure TTS, such as \"en-US-JennyNeural\" and \"en-US-AriaNeural.\"\n\
+            \  - Jenny is the primary narrator, while Aria asks questions and expresses\
+            \ excitement.\n- Use the `<speak>` XML tag as the root element and ensure\
+            \ it’s well-formatted for TTS use.\n- Explore fun topics like science,\
+            \ nature, mathematics, or daily habits in a sequence that makes learning\
+            \ fun.\n\n# Steps\n\n1. **Topic Introduction**: Introduce the new topic\
+            \ in a friendly and engaging way.\n2. **Dialogue Sequence**: Alternate\
+            \ between characters:\n    - The main character (Jenny) introduces information.\n\
+            \    - The secondary character (Aria) reacts, asks simple questions, or\
+            \ expresses curiosity.\n3. **Wrap-Up & Encouragement**: End with a positive\
+            \ summary or encouraging note for children.\n\n# Output Format\n\n- Use\
+            \ SSML format with the `<speak>` and `<voice>` tags.\n- Include alternate\
+            \ dialogue sections with at least two characters.\n- Write complete and\
+            \ well-formed XML.\n\n## Example\n\n<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\"\
+            \ xml:lang=\"en-US\">\n\n<voice name=\"en-US-JennyNeural\">\n    Hello,\
+            \ my little friends! Today, we are going on an adventure to learn all\
+            \ about one of the most magical creatures of the sea: the dolphin!\n</voice>\n\
+            \n<voice name=\"en-US-AriaNeural\">\n    Oooh, dolphins! I always wanted\
+            \ to learn about dolphins! Do they really love to jump out of the water?\n\
+            </voice>\n\n<voice name=\"en-US-JennyNeural\">\n    That's right, Aria!\
+            \ Dolphins love to leap out of the water. It helps them move faster and\
+            \ also looks like they’re having so much fun! They’re super strong swimmers—just\
+            \ like you when you try your best in the pool!\n</voice>\n\n<voice name=\"\
+            en-US-AriaNeural\">\n    Wow, that's so cool! How do dolphins talk to\
+            \ each other?\n</voice>\n\n<voice name=\"en-US-JennyNeural\">\n    Great\
+            \ question, Aria! Dolphins talk to each other using sounds like clicks,\
+            \ whistles, and even special calls. It's almost like they have their own\
+            \ secret language!\n</voice>\n\n<voice name=\"en-US-AriaNeural\">\n  \
+            \  Dolphins are so amazing! I want to learn their secret language too!\n\
+            </voice>\n\n<voice name=\"en-US-JennyNeural\">\n    Maybe one day! For\
+            \ now, it's just fun to know that every dolphin family has its very own\
+            \ way of communicating, just like we do with our families. Isn’t that\
+            \ amazing?\n</voice>\n\n<voice name=\"en-US-AriaNeural\">\n    Yes, it\
+            \ is! I love learning new things with you, Jenny.\n</voice>\n\n<voice\
+            \ name=\"en-US-JennyNeural\">\n    And I love sharing it with you, Aria!\
+            \ And remember, friends, keep being curious and asking questions. There's\
+            \ so much out there to discover!\n</voice>\n\n</speak>\n\n# Notes\n\n\
+            - Be sure to alternate voices for an engaging back-and-forth dialogue.\n\
+            - Maintain an overall length for each script that would produce a 2-3\
+            \ minute long audio.\n- You may add other relevant voices if needed to\
+            \ enhance the storytelling, but always ensure they are in service to the\
+            \ topic’s narrative.\n- The SSML structure should be correctly formed,\
+            \ as invalid XML will lead to errors during the TTS generation."
+        selected: false
+        title: LLM
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 97
+      id: llm
+      position:
+        x: 389
+        y: 282
+      positionAbsolute:
+        x: 389
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        answer: '{{#1730703901518.files#}}
+
+          {{#1732361299529.files#}}'
+        desc: ''
+        selected: false
+        title: Answer
+        type: answer
+        variables: []
+      height: 118
+      id: answer
+      position:
+        x: 1010.5190409475813
+        y: 282
+      positionAbsolute:
+        x: 1010.5190409475813
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - id: key-value-25
+            key: ''
+            type: text
+            value: '{{#llm.text#}}
+
+              '
+          type: raw-text
+        desc: ''
+        headers: 'Ocp-Apim-Subscription-Key:{{#env.API_KEY#}}
+
+          Content-Type:application/ssml+xml
+
+          X-Microsoft-OutputFormat:audio-16khz-32kbitrate-mono-mp3'
+        method: post
+        params: ''
+        selected: false
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: HTTP Request
+        type: http-request
+        url: https://japaneast.tts.speech.microsoft.com/cognitiveservices/v1
+        variables: []
+      height: 125
+      id: '1730703901518'
+      position:
+        x: 695
+        y: 282
+      positionAbsolute:
+        x: 695
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            frequency_penalty: 0.1
+            max_tokens: 16001
+            presence_penalty: 0.1
+            temperature: 0.8
+            top_p: 0.9
+          mode: chat
+          name: gpt-4o-mini-2024-07-18
+          provider: openai
+        prompt_template:
+        - id: faa9f172-a872-4818-aed2-c0537e77f256
+          role: system
+          text: "Create a prompt for DALLE 3 to generate an image based on a text\
+            \ description, emphasizing that the illustration should be cute, whimsical,\
+            \ and child-friendly.\n\nKeep the following in mind:\n\n- Imagery should\
+            \ be soft, approachable, and appropriate for children.\n- Include specific\
+            \ visual elements, colors, characters, and settings that evoke warmth\
+            \ and friendliness.\n- Refrain from anything that could appear frightening\
+            \ or overly complex.\n\n# Steps \n\n1. Summarize the main components of\
+            \ the image to include key subjects, actions, and themes.\n2. Use gentle,\
+            \ friendly language that specifies 'cute' elements, such as \"cuddly animals,\"\
+            \ \"smiling children,\" or \"soft pastel colors.\" \n3. Add a setting\
+            \ that feels wholesome or magical, such as a \"grassy meadow,\" \"storybook\
+            \ village,\" or \"fanciful cloud world.\"\n4. Include friendly character\
+            \ descriptions, specifying expressions and playful features.\n5. Adjust\
+            \ sensory details to evoke softness or gentleness (e.g., \"fluffy,\" \"\
+            cozy,\" \"playful environment\").\n\n# Output Format\n\n\"Create an illustration\
+            \ of [main subject doing specific action] in a [setting description].\
+            \ The illustration should be cute and child-friendly, with [light colors\
+            \ or specific tones]. The characters should be [appearance descriptors],\
+            \ and the scene should evoke feelings of [joy, warmth, safety, etc.].\"\
+            \n\n# Examples\n\n**User Input**: \"A dragon in the forest\"\n\n**DALLE\
+            \ Prompt**: \"Create an illustration of a small, friendly dragon taking\
+            \ a nap in a sunlit forest clearing. The scene should be cute and child-friendly,\
+            \ with soft green colors, dappled sunlight, and playful animals like squirrels\
+            \ and birds nearby. The dragon should look cuddly, with round features\
+            \ and a gentle expression, evoking a sense of warmth and calm.\"\n\n**User\
+            \ Input**: \"A princess with a cat\"\n\n**DALLE Prompt**: \"Create an\
+            \ illustration of a young princess sitting in a lovely garden, petting\
+            \ a smiling cat. The scene should be whimsical and child-friendly, with\
+            \ bright, cheerful colors like pinks, yellows, and greens. The princess\
+            \ should have a friendly expression, while the cat should look fluffy\
+            \ and comfortable, creating a sense of happiness and playfulness.\" \n\
+            \n**User Input**: \"Space adventure\"\n\n**DALLE Prompt**: \"Create an\
+            \ illustration of a young astronaut floating in space next to a friendly\
+            \ alien. They should both be smiling and waving towards each other. The\
+            \ scene should be cute and child-friendly, with bright stars and gentle\
+            \ pastel colors, and the spaceship in the background should be playful,\
+            \ resembling something from a child's dream.\"\n\n# Notes\n\n- The goal\
+            \ of the prompt is to ensure the AI generates images that are suitable\
+            \ for young children, avoiding sharp details, negative emotions, or anything\
+            \ that might be scary or unsettling.\n- Focus on positive, nurturing interactions\
+            \ between characters.\n- Colors should generally be bright, pastel, or\
+            \ soft, reinforcing a child-friendly tone."
+        - id: f99a8c7c-a85d-4c9f-9776-8da4ed764ec2
+          role: user
+          text: '{{#sys.query#}}'
+        selected: false
+        title: LLM 2
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 97
+      id: '1732361282794'
+      position:
+        x: 389
+        y: 418
+      positionAbsolute:
+        x: 389
+        y: 418
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        provider_id: dalle
+        provider_name: dalle
+        provider_type: builtin
+        selected: false
+        title: DALL-E 3
+        tool_configurations:
+          n: 1
+          quality: standard
+          size: square
+          style: vivid
+        tool_label: DALL-E 3
+        tool_name: dalle3
+        tool_parameters:
+          prompt:
+            type: mixed
+            value: '{{#1732361282794.text#}}'
+        type: tool
+      height: 167
+      id: '1732361299529'
+      position:
+        x: 692
+        y: 418
+      positionAbsolute:
+        x: 692
+        y: 418
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    viewport:
+      x: 111.15158983819231
+      y: -32.20613905398898
+      zoom: 1.148698354997035
